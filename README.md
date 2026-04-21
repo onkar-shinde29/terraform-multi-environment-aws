@@ -63,24 +63,44 @@ Each environment includes:
 ---
 
 ## 🔄 Workspace Strategy
+Terraform workspaces are used to create isolated environments:
 
-Terraform workspaces are used to isolate environments:
+- dev
+- staging
+- prod
 
-* dev
-* staging
-* prod
-
-Each workspace maintains its own state, ensuring complete separation.
+Each workspace maintains its own Terraform state, ensuring complete separation of infrastructure.
 
 ---
 
-## 🗄️ Remote Backend
+## 🔐 Environment Isolation Logic
+Environment isolation is achieved using:
 
-Terraform state is stored in an AWS S3 bucket to enable:
+- Separate workspace for each environment
+- Separate `.tfvars` files:
+  - dev.tfvars
+  - staging.tfvars
+  - prod.tfvars
+- Different configurations:
+  - Dev → lightweight resources
+  - Staging → moderate resources
+  - Production → high-performance resources
+- Resource naming includes workspace to avoid conflicts
+- Independent state for each workspace
 
-* Remote state management
-* Team collaboration
-* State locking (if configured with DynamoDB)
+This ensures:
+- No overlap between environments
+- Safe testing without affecting production
+
+---
+
+## 🗄️ Remote Backend Setup
+Terraform state is stored in an AWS S3 bucket.
+
+Benefits:
+- Remote state management
+- Team collaboration
+- State locking (with DynamoDB if configured)
 
 ---
 
